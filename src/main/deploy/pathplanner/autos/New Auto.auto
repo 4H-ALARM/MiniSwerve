@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Straight Line"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "right then left"
+            "pathName": "forward path"
           }
         }
       ]

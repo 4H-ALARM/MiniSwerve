@@ -28,11 +28,14 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton zeromodButton = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton straightLinePath = new JoystickButton(driver, XboxController.Button.kB.value);
+    private final JoystickButton squarePath = new JoystickButton(driver, XboxController.Button.kX.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -66,6 +69,9 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         zeromodButton.onTrue(new InstantCommand(s_Swerve::resetModulesToAbsolute));
+        squarePath.whileTrue(new PathPlannerAuto("square auto"));
+        straightLinePath.whileTrue(new PathPlannerAuto("New Auto"));
+
     }
 
     /**
@@ -75,6 +81,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new PathPlannerAuto("New New Auto");
+        return new PathPlannerAuto("square auto");
     }
+
 }
