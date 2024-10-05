@@ -81,7 +81,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new PathPlannerAuto("square auto");
+        return new PathPlannerAuto("New Auto");
     }
 
 }

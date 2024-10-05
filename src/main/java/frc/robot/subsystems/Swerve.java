@@ -24,7 +24,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Camera;
+//import frc.robot.Camera;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
@@ -32,7 +32,7 @@ public class Swerve extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
     private ChassisSpeeds latestRobotRelativeSpeeds;
-    private Camera camera1;
+    //private Camera camera1;
 
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
@@ -60,8 +60,8 @@ public class Swerve extends SubsystemBase {
             this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                     new PIDConstants(3.75, 0.4, 0.085), // Translation PID constants
-                    new PIDConstants(3.75, 0.4, 0.085), // Rotation PID constants
-                    4.5, // Max module speed, in m/s
+                    new PIDConstants(0.3, 0.1, 0), // Rotation PID constants
+                    0.25, // Max module speed, in m/s
                     0.4, // Drive base radius in meters. Distance from robot center to furthest module.
                     new ReplanningConfig() // Default path replanning config. See the API for the options here
             ),
@@ -186,6 +186,8 @@ public class Swerve extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
         swerveDrivePoseEstimator.update(getGyroYaw(), getModulePositions());
+
+        SmartDashboard.putNumberArray("Coordinates", new double[] {swerveOdometry.getPoseMeters().getY(), swerveOdometry.getPoseMeters().getX()});
         
 
         for(SwerveModule mod : mSwerveMods){
