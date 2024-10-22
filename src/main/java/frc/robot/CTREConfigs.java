@@ -39,7 +39,7 @@ public final class CTREConfigs {
         swerveDriveFXConfig.Feedback.SensorToMechanismRatio = Constants.Swerve.driveGearRatio;
 
         /* Current Limiting */
-        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimit = 80;
+        swerveDriveFXConfig.CurrentLimits.StatorCurrentLimit = 50;
         swerveDriveFXConfig.CurrentLimits.StatorCurrentLimitEnable = true;
 
         /* PID Config */

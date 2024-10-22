@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.util.Units;
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
 
@@ -61,9 +62,9 @@ public class Swerve extends SubsystemBase {
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                     new PIDConstants(1, 0, 0), // Translation PID constants
                     new PIDConstants(1, 0, 0), // Rotation PID constants
-                    0.25, // Max module speed, in m/s
-                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+                    0.393, // Max module speed, in m/s
+                    Units.inchesToMeters(15.36), // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig(true,true) // Default path replanning config. See the API for the options here
             ),
             () -> {
               // Boolean supplier that controls when the path will be mirrored for the red alliance
@@ -188,12 +189,21 @@ public class Swerve extends SubsystemBase {
         swerveDrivePoseEstimator.update(getGyroYaw(), getModulePositions());
 
         SmartDashboard.putNumberArray("Coordinates", new double[] {swerveOdometry.getPoseMeters().getY(), swerveOdometry.getPoseMeters().getX()});
-        
 
+        double[] vels = new double[4];
+        double[] absvels = new double[4];
+        int j=0;
+        int i = 0;
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
+
+            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " ABSVelocity", Math.abs(mod.getState().speedMetersPerSecond));
+            vels[i++] = mod.getState().speedMetersPerSecond;
+            absvels[j++] = Math.abs(mod.getState().speedMetersPerSecond);
         }
+        SmartDashboard.putNumberArray("All Velocity", vels);
+        SmartDashboard.putNumberArray("All abs Velocity", absvels);
     }
 }
